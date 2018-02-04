@@ -12,6 +12,9 @@ class MDB_Config:
 
 		self.api_key = self.getConfigValue("Api", "Key")
 		self.api_endpoint = self.getConfigValue("Api", "Endpoint")
+		self.api_providers = []
+		for provider in self.getConfigValue("Api", "Providers", "").split(','):
+			self.api_providers.append(provider.strip())
 		self.useragent = self.getConfigValue("Api", "User-Agent", "moviedb")
 		self.cache_provider = self.getConfigValue("Cache", "Provider", "sqlite3")
 		self.cache_connection_string = self.getConfigValue("Cache", "Connection String", "moviedb_cache.db")
@@ -24,6 +27,7 @@ class MDB_Config:
 
 	def getApiKey(self): return self.api_key
 	def getApiEndpoint(self): return self.api_endpoint
+	def getApiProviders(self): return self.api_providers
 	def getUserAgent(self): return self.useragent
 	def getCacheProvider(self): return self.cache_provider
 	def getCacheConnectionString(self): return self.cache_connection_string
@@ -36,4 +40,5 @@ class MDB_Config:
 if __name__ == "__main__":
 	config = MDB_Config()
 	if config.isValid():
-		print "Api key: %s" % config.getApiKey()
+		print("Api key: %s" % config.getApiKey())
+		print("Providers: %s" % config.getApiProviders())

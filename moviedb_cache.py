@@ -15,19 +15,13 @@
 #    desirable at a later date.
 
 from moviedb_config import MDB_Config
-
-class MDB_CacheProvider_SQLite3:
-	def __init__(self, connection_string):
-		import sqlite3
-		print "[Cache] Connecting to sqlite3://%s" % connection_string
-		self.connection = sqlite3.connect(connection_string)
+from moviedb_cacheprovider import MDB_CacheProviders
 
 class MDB_Cache:
 	def __init__(self, config):
-		if config.getCacheProvider() == "sqlite3":
-			self.provider = MDB_CacheProvider_SQLite3(config.getCacheConnectionString())
-		else:
-			raise ValueError('Invalid cache provider')
+		self.provider = MDB_CacheProviders.GetCacheProvider(config)
+
+	def populateProvider(self, provider, api): return self.provider.populateProvider(provider, api)
 
 if __name__ == "__main__":
 	config = MDB_Config()
